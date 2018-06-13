@@ -8,8 +8,7 @@ module.exports = {
     },
     removeMember: (req, res, next) => {
         const {id} = req.params;
-        team = team.filter( character => character.id !== id)
-        console.log(team)
+        team = team.filter( character => character.id !== +id)
         res.status(200).send(team)
     }
 }

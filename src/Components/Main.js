@@ -72,18 +72,20 @@ class Main extends Component {
                 onChange={e => this.handleChange(e)}
             />
             <button onClick={ () => this.getCharacters()}>GET CHARACTERS</button>
-            <CharacterList
-                list={characters}
-                title='CHARACTERS'
-                callbackFn = {this.addTeamMember}
-                buttonName = 'ADD TO TEAM'
-            />
-            <CharacterList
-                list={myTeam}
-                title='MY TEAM'
-                callbackFn = {this.removeTeamMember}
-                buttonName = 'REMOVE FROM TEAM'
-            />
+            <div className='lists'>
+                <CharacterList
+                    list={characters}
+                    title='CHARACTERS'
+                    callbackFn = {this.addTeamMember}
+                    buttonName = 'ADD TO TEAM'
+                />
+                <CharacterList
+                    list={myTeam}
+                    title='MY TEAM'
+                    callbackFn = {this.removeTeamMember}
+                    buttonName = 'REMOVE FROM TEAM'
+                />
+            </div>
         </div>
         )
     }

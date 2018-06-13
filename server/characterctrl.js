@@ -12,7 +12,6 @@ module.exports = {
         const searchString = nameSearch ? `&nameStartsWith=${nameSearch}` : '';
         console.log('hit')
         axios.get(`${baseMarvelURL}/characters${keyParams}${searchString}`).then( response => {
-            console.log(response.data.data)
             res.status(200).send(response.data.data.results)
         })
     }
