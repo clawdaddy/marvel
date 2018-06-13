@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 import './Main.css';
 import CharacterList from './CharacterList';
 
@@ -28,18 +28,26 @@ class Main extends Component {
         this.removeTeamMember = this.removeTeamMember.bind(this);
     }
 
+    componentDidMount(){
+        axios.get(`/api/team/getTeam`).then( response => {
+            this.setState({
+                myTeam:response.data
+            });
+        });
+    }
     getCharacters(){
         const { nameSearch } = this.state;
-        Axios.get(`/api/getCharacters/?nameSearch=${nameSearch}`).then( res => {
+        axios.get(`/api/getCharacters/?nameSearch=${nameSearch}`).then( res => {
             let characters = res.data
             console.log(res)
             this.setState({
                 characters
             })
         })
+        
     }
     addTeamMember(character){
-        Axios.post(`/api/team/addMember`, {character}).then( response => {
+        axios.post(`/api/team/addMember`, {character}).then( response => {
             //get back whole team
             console.log(response)
             this.setState({
@@ -48,7 +56,7 @@ class Main extends Component {
         });
     };
     removeTeamMember(character){
-        Axios.delete(`/api/team/removeMember/${character.id}`).then( response => {
+        axios.delete(`/api/team/removeMember/${character.id}`).then( response => {
             //get back team w/o member
             this.setState({
                 myTeam:response.data
@@ -65,7 +73,6 @@ class Main extends Component {
         const { characters, myTeam } = this.state;
         return(
         <div>
-            <h1>MARVEL SMASH</h1>
             <input type='text' placeholder='search names here'
                 value={this.state.search}
                 name='nameSearch'

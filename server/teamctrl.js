@@ -10,5 +10,9 @@ module.exports = {
         const {id} = req.params;
         team = team.filter( character => character.id !== +id)
         res.status(200).send(team)
+    },
+    getTeam: (req, res, next) => {
+        console.log('hit')
+        res.status(200).send(team)
     }
 }

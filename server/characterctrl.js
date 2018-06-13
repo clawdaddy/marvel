@@ -10,7 +10,6 @@ module.exports = {
         const hashedKeys = md5(`${date}${MARVEL_PRIVATE_KEY}${MARVEL_PUBLIC_KEY}`)
         const keyParams = `?ts=${date}&apikey=${MARVEL_PUBLIC_KEY}&hash=${hashedKeys}`;
         const searchString = nameSearch ? `&nameStartsWith=${nameSearch}` : '';
-        console.log('hit')
         axios.get(`${baseMarvelURL}/characters${keyParams}${searchString}`).then( response => {
             res.status(200).send(response.data.data.results)
         })
