@@ -10,17 +10,23 @@ class Main extends Component {
             attributionText:'',
             characters:[
                 {
-                    character:'',
-                    thumbnail:'',
-                    thumbnailExtension:''
+                    id:1,
+                    name:'Hulk',
+                    thumbnail:{
+                        path:'http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0',
+                        extension:'jpg'
+                    }
                 }
             ],
-            nameSearch:'',
+            nameStartsWith:'',
             myTeam:[
                 {
-                    character:'',
-                    thumbnail:'',
-                    thumbnailExtension:''
+                    id:0,
+                    name:'Spider-Man',
+                    thumbnail:{
+                        path:'http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b',
+                        extension:'jpg'
+                    }
                 }
             ]
         }
@@ -36,8 +42,8 @@ class Main extends Component {
         });
     }
     getCharacters(){
-        const { nameSearch } = this.state;
-        axios.get(`/api/getCharacters/?nameSearch=${nameSearch}`).then( res => {
+        const { nameStartsWith } = this.state;
+        axios.get(`/api/getCharacters/?nameStartsWith=${nameStartsWith}`).then( res => {
             let characters = res.data
             console.log(res)
             this.setState({
@@ -47,20 +53,34 @@ class Main extends Component {
         
     }
     addTeamMember(character){
+        const { characters } = this.state;
         axios.post(`/api/team/addMember`, {character}).then( response => {
             //get back whole team
-            console.log(response)
+            let index = -1;
+            let newCharacters = characters.map( (oldCharacter,i) => {
+                if (oldCharacter.id === character.id){
+                    index = i;
+                }
+                return Object.assign({}, oldCharacter)
+            });
+            newCharacters.splice(index,1)
             this.setState({
-                myTeam:response.data
+                myTeam:response.data,
+                characters:newCharacters
             });
         });
     };
     removeTeamMember(character){
         const {id} = character;
+        const { characters } = this.state;
         axios.delete(`/api/team/removeMember/${id}`).then( response => {
-            //get back team w/o member
+            let newCharacters = characters.map( oldCharacter  => {
+                return Object.assign({}, oldCharacter)
+            });
+            newCharacters.push(character)
             this.setState({
-                myTeam:response.data
+                myTeam:response.data,
+                characters:newCharacters
             });
         });
     }
@@ -78,7 +98,7 @@ class Main extends Component {
         <div>
             <input type='text' placeholder='search names here'
                 value={this.state.search}
-                name='nameSearch'
+                name='nameStartsWith'
                 onChange={e => this.handleChange(e)}
             />
             <button onClick={ () => this.getCharacters()}>GET CHARACTERS</button>

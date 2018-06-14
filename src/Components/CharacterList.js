@@ -10,6 +10,7 @@ function CharacterList(props){
                 character = {character}
                 callbackFn = {callbackFn}
                 buttons = {buttons}
+                key={character.id}
             />
         );
     });

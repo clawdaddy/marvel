@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>MARVEL SMASH</h1>
-        <Link to='/'>Choose Team</Link>
+        <Link to='/'>Choose Team</Link><br/>
         <Link to='/stats'>Stats</Link>
 
         <Switch>

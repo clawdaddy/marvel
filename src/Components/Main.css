@@ -9,10 +9,28 @@
     padding:25px;
     margin:5px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     
+}
+.character-portrait{
+    display: flex;
+    flex-direction: column;
+    
+}
+.card-content{
+    display: flex;
+}
+.card-stats{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.card-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 .lists{
     display: grid;

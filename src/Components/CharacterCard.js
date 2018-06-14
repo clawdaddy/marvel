@@ -5,29 +5,51 @@ class CharacterCard extends Component {
     constructor(props){
         super(props);
         this.state = {
-
+            strength:0,
+            agility:0,
+            intelligence:0,
+            magic:0,
+            charisma:0,
+            luck:0
         }
     }
 
     render(){
         const {character, callbackFn, buttons} = this.props;
+        const { strength, agility, intelligence, magic, charisma, luck} = this.state;
         const buttonList = buttons.map( button => {
             let payload = button.value || character
             return(
                 <button 
                     name={button.name} 
                     value={button.value}
-                    onClick={ () => callbackFn(payload)}>
+                    onClick={ () => callbackFn(payload, button.attribute, character.id)}
+                    key={button.name}
+                    >
                     {button.name}
                 </button>
             )
         })
         return(
             <div key={character.id} className='character-card'>
-                <p>Name: {character.name}</p>
-                <img src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}/>
+                <div className='character-portrait'>
+                    <p>Name: {character.name}</p>
+                    <img src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}/>
+                </div>
                 {/* <button onClick={() => callbackFn(character)}>{buttonName}</button> */}
-                {buttonList}
+                <div className='card-content'>
+                    <div className='card-buttons'>
+                        {buttonList}
+                    </div>
+                    <div className='card-stats'>
+                        <p>Strength:{character.strength}</p>
+                        <p>Agility:{character.agility}</p>
+                        <p>Intelligence:{character.intelligence}</p>
+                        <p>Magic:{character.magic}</p>
+                        <p>Charisma:{character.charisma}</p>
+                        <p>Luck:{character.luck}</p>
+                    </div>
+                </div>
             </div>
         )
     }
