@@ -3,13 +3,13 @@ import './Main.css';
 import CharacterCard from './CharacterCard';
 
 function CharacterList(props){
-    const {list, title, callbackFn, buttonName} = props;
+    const {list, title, callbackFn, buttons} = props;
     const characterThumbs = list.map( character=> {
         return(
             <CharacterCard
                 character = {character}
                 callbackFn = {callbackFn}
-                buttonName = {buttonName}
+                buttons = {buttons}
             />
         );
     });

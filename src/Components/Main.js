@@ -56,7 +56,8 @@ class Main extends Component {
         });
     };
     removeTeamMember(character){
-        axios.delete(`/api/team/removeMember/${character.id}`).then( response => {
+        const {id} = character;
+        axios.delete(`/api/team/removeMember/${id}`).then( response => {
             //get back team w/o member
             this.setState({
                 myTeam:response.data
@@ -71,6 +72,8 @@ class Main extends Component {
     }
     render(){
         const { characters, myTeam } = this.state;
+        const addButtons = [{name:'ADD TO TEAM', value:''}];
+        const removeButtons = [{name:'REMOVE FROM TEAM', value:''}]
         return(
         <div>
             <input type='text' placeholder='search names here'
@@ -84,13 +87,13 @@ class Main extends Component {
                     list={characters}
                     title='CHARACTERS'
                     callbackFn = {this.addTeamMember}
-                    buttonName = 'ADD TO TEAM'
+                    buttons = {addButtons}
                 />
                 <CharacterList
                     list={myTeam}
                     title='MY TEAM'
                     callbackFn = {this.removeTeamMember}
-                    buttonName = 'REMOVE FROM TEAM'
+                    buttons = {removeButtons}
                 />
             </div>
         </div>
