@@ -17,7 +17,9 @@ function CharacterList(props){
     return(
         <div className='character-list' key={`list-${title}`}>
             <h2>{title}</h2>
-            {characterThumbs}
+            <div className='character-list-cards'>
+                {characterThumbs}
+            </div>
         </div>
     )
 }

@@ -28,7 +28,8 @@ class Main extends Component {
                         extension:'jpg'
                     }
                 }
-            ]
+            ],
+            offset:0
         }
         this.addTeamMember = this.addTeamMember.bind(this);
         this.removeTeamMember = this.removeTeamMember.bind(this);
@@ -41,13 +42,19 @@ class Main extends Component {
             });
         });
     }
-    getCharacters(){
-        const { nameStartsWith } = this.state;
-        axios.get(`/api/getCharacters/?nameStartsWith=${nameStartsWith}`).then( res => {
+    getCharacters(changeOffset=0){
+        const { nameStartsWith, offset } = this.state;
+        let newOffset;
+            newOffset = offset + changeOffset;
+            if (newOffset<0){
+                newOffset = 0;
+            }
+        axios.get(`/api/getCharacters/?nameStartsWith=${nameStartsWith}&offset=${newOffset}&limit=9`).then( res => {
             let characters = res.data
             console.log(res)
             this.setState({
-                characters
+                characters,
+                offset: newOffset
             })
         })
         
@@ -102,6 +109,8 @@ class Main extends Component {
                 onChange={e => this.handleChange(e)}
             />
             <button onClick={ () => this.getCharacters()}>GET CHARACTERS</button>
+            <button onClick={ () => this.getCharacters(-9)}>Previous 9</button>
+            <button onClick={ () => this.getCharacters(9)}>Next 9</button>
             <div className='lists'>
                 <CharacterList
                     list={characters}

@@ -10,6 +10,30 @@
             "name": "Launch Chrome against localhost",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
-        }
+        },
+        {
+            "type": "node",
+              "request": "launch",
+              "name": "Server",
+              "program": "${workspaceFolder}/server/server.js",
+              "skipFiles": [
+                "${workspaceRoot}/node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
+          },
+          {
+            "name": "React",
+            "type": "chrome",
+            "request": "launch",
+            "skipFiles": [
+              "${workspaceRoot}/node_modules/**/*.js",
+              "<node_internals>/**/*.js"
+            ],
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceRoot}/src",
+            "sourceMapPathOverrides": {
+              "webpack:///src/*": "${webRoot}/*"
+            }
+          }
     ]
 }

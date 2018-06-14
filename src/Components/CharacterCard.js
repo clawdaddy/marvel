@@ -30,12 +30,18 @@ class CharacterCard extends Component {
                 </button>
             )
         })
+        const cardStyle={
+            backgroundImage:`url('${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}')`,
+            backgroundColor:'black',
+            backgroundRepeat:'no-repeat',
+            backgroundPosition:'center'
+        }
         return(
-            <div key={character.id} className='character-card'>
-                <div className='character-portrait'>
-                    <p>Name: {character.name}</p>
-                    <img src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}/>
-                </div>
+            <div key={character.id} className='character-card' style={cardStyle}>
+                {/* <div className='character-portrait'> */}
+                <p>Name: {character.name}</p>
+                    {/* <img src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}/> */}
+                {/* </div> */}
                 {/* <button onClick={() => callbackFn(character)}>{buttonName}</button> */}
                 <div className='card-content'>
                     <div className='card-buttons'>
