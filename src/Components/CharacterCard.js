@@ -39,7 +39,7 @@ class CharacterCard extends Component {
         return(
             <div key={character.id} className='character-card' style={cardStyle}>
                 {/* <div className='character-portrait'> */}
-                <p>Name: {character.name}</p>
+                <p>{character.name}</p>
                     {/* <img src={`${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}`}/> */}
                 {/* </div> */}
                 {/* <button onClick={() => callbackFn(character)}>{buttonName}</button> */}
