@@ -58,7 +58,7 @@ class Main extends Component {
         const { nameStartsWith, offset } = this.state;
         let newOffset;
             newOffset = offset + changeOffset;
-            if (newOffset<0){
+            if (newOffset<0 ){
                 newOffset = 0;
             }
         axios.get(`/api/getCharacters/?nameStartsWith=${nameStartsWith}&offset=${newOffset}&limit=6`).then( res => {
@@ -113,7 +113,8 @@ class Main extends Component {
 
     handleChange(e){
         this.setState({
-            [e.target.name]:e.target.value
+            [e.target.name]:e.target.value,
+            offset:0
         });
     }
     render(){

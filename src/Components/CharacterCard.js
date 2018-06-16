@@ -23,7 +23,7 @@ class CharacterCard extends Component {
                         name={button.name} 
                         value={button.value}
                         onClick={ () => callbackFn(payload, button.attribute, character.id)}
-                        key={button.name}
+                        key={`${button.name}-${button.attribute}`}
                         >
                         {button.name}
                     </button>
