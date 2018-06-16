@@ -15,7 +15,7 @@ class CharacterCard extends Component {
     }
 
     render(){
-        const {character, callbackFn, buttons, displayAttributes } = this.props;
+        const {character, callbackFn, buttons, displayAttributes, x, y } = this.props;
         const buttonList = buttons.map( button => {
             let payload = button.value || character
             return(
@@ -30,15 +30,18 @@ class CharacterCard extends Component {
             )
         })
         let attributesDisplay = displayAttributes ? 'flex' : 'none';
-        const cardStyle={
+        const cardStyle=Object.assign({},{
             backgroundImage:`url('${character.thumbnail.path}/portrait_xlarge.${character.thumbnail.extension}')`,
             backgroundColor:'black',
             backgroundRepeat:'no-repeat',
             backgroundPosition:'top',
-        }
+        }, {WebkitTransform:`translate3d(${x}px,0,0`,
+            transform:`translate3d(${x}px,0,0`})
+        
         const attributesStyle = {display:attributesDisplay}
         return(
-            <div key={character.id} className='character-card' style={cardStyle}>
+            <div key={character.id} className='character-card' 
+            style={cardStyle}>
                 
                 <p>{character.name}</p>
                 <div className='card-content'>

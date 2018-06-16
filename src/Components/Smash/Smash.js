@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import CharacterCard from './../CharacterCard';
 import './Smash.css';
+import {TransitionMotion, Motion, spring} from 'react-motion';
 
 class Smash extends Component {
     constructor(props){
@@ -45,7 +46,8 @@ class Smash extends Component {
                     extension:'jpg'
                 }
             },
-            currentEnemyIndex:0
+            currentEnemyIndex:0,
+            smashing: false
         }
     }
     componentDidMount(){
@@ -100,62 +102,90 @@ class Smash extends Component {
             }
         }
     }
+
+    smashTogether(){
+        this.setState({smashing:true})
+    }
     smashCharacter(){
-        const { currentEnemy, currentFighter } = this.state;
+        const { currentEnemy, currentFighter, smashing } = this.state;
         let randomNum = Math.random();
-        if (randomNum>0.5){
-            alert(`${currentEnemy.name} got smashed!`);
-            axios.delete(`/api/team/removeMember/${currentEnemy.id}?team=enemyTeam`).then( response => {
-                if (response.data[0].length ===0){
-                    alert(`The enemy team has been defeated!`);
-                    this.props.history.push('/');
-                } else {
-                    this.setState({
-                        enemyTeam:response.data[0],
-                        currentEnemy:response.data[0][0]
-                    });
+        if (smashing){
+            // setTimeout(() =>this.setState({smashing:false}),50)
+            this.setState( () => {return {smashing:false}})
+        }
+        else {
+            if (randomNum>0.5){
+                alert(`${currentEnemy.name} got smashed!`);
+                axios.delete(`/api/team/removeMember/${currentEnemy.id}?team=enemyTeam`).then( response => {
+                    if (response.data[0].length ===0){
+                        alert(`The enemy team has been defeated!`);
+                        this.props.history.push('/');
+                    } else {
+                        this.setState({
+                            enemyTeam:response.data[0],
+                            currentEnemy:response.data[0][0]
+                        });
 
-                }
-            });
-
-        } else {
-            alert(`${currentFighter.name} got smashed!`);
-            axios.delete(`/api/team/removeMember/${currentFighter.id}?team=myTeam`).then( response => {
-                if (response.data[0].length ===0){
-                    alert(`Your team has been defeated!`);
-                    this.props.history.push('/')
-                }
-                this.setState({
-                    myTeam:response.data[0],
-                    currentFighter:response.data[0][0]
+                    }
                 });
-            });
-        };
 
+            } else {
+                alert(`${currentFighter.name} got smashed!`);
+                axios.delete(`/api/team/removeMember/${currentFighter.id}?team=myTeam`).then( response => {
+                    if (response.data[0].length ===0){
+                        alert(`Your team has been defeated!`);
+                        this.props.history.push('/')
+                    }
+                    this.setState({
+                        myTeam:response.data[0],
+                        currentFighter:response.data[0][0]
+                    });
+                });
+            };
+        }
     }
     render(){
-        const {currentFighter,currentEnemy} = this.state;
+        const {currentFighter,currentEnemy, smashing} = this.state;
         
         return(
         <div className='smash-box'>
             <div>
                 <button onClick={ () => this.changeCharacter(-1, 'myTeam') }> Previous Character</button>
                 <button onClick={ () => this.changeCharacter(1, 'myTeam') }>Next Character</button>
-                <CharacterCard
-                    character={currentFighter}
-                    buttons={[]}
-                    displayAttributes = {true}
-                />
+                <Motion defaultStyle={{x:0}} style={{x:spring(smashing ? 100: 0,{stiffness: 210, damping: 10})}}
+                >
+                    {({x}) =>{
+                    return (
+                    <CharacterCard
+                        character={currentFighter}
+                        buttons={[]}
+                        displayAttributes = {true}
+                        x={x}
+                    />
+                    )
+                    }
+                    }
+                </Motion>
+
             </div>
-            <button onClick={ () => this.smashCharacter()}>SMASH</button>
+            <button onClick={ () => this.smashTogether()}>SMASH</button>
             <div>
                 <button onClick={ () => this.changeCharacter(-1, 'enemyTeam') }> Previous Character</button>
                 <button onClick={ () => this.changeCharacter(1, 'enemyTeam') }>Next Character</button>
+                <Motion defaultStyle={{x:0}} style={{x:spring(smashing ? -100: 0,{stiffness: 210, damping: 10})}}
+                onRest={()=> this.smashCharacter()}>
+                    {({x}) =>{
+                    return (
                 <CharacterCard
                     character={currentEnemy}
                     buttons={[]}
                     displayAttributes = {true}
+                    x={x}
                 />
+                    )
+                    }
+                    }
+                </Motion>
             </div>
         </div>
         )
