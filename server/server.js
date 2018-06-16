@@ -18,9 +18,9 @@ app.use(bodyParser.json())
 app.get(`/api/getCharacters/`, charctrl.searchCharacters)
 
 /// USER INFO ///
-app.get(`/api/team/getTeam`, teamctrl.getTeams)
+app.get(`/api/team/getTeam`, teamctrl.getTeams);
 app.post(`/api/team/addMember`, teamctrl.addMember);
 app.delete(`/api/team/removeMember/:id`, teamctrl.removeMember);
-app.patch(`/api/team/changeStat`, teamctrl.changeStat)
+app.patch(`/api/team/changeStat`, teamctrl.changeStat);
 
 app.listen(SERVER_PORT, () => console.log(`server listening on port ${SERVER_PORT}`))

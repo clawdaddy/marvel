@@ -38,7 +38,7 @@ class Stats extends Component {
             axios.patch(`/api/team/changeStat`, {change, attribute, characterID}).then( response => {
                 this.setState({
                     statpoints:response.data.statpoints,
-                    team:response.data.team
+                    myTeam:response.data.myTeam
                 });
             });
         };
@@ -47,62 +47,62 @@ class Stats extends Component {
         const { myTeam, statpoints } = this.state;
         const buttons = [
             {
-                name:'add strength',
+                name:'+',
                 value:1,
                 attribute:'strength'
             },
             {
-                name:'subtract strength',
+                name:'-',
                 value:-1,
                 attribute:'strength'
             },
             {
-                name:'add agility',
+                name:'+',
                 value:1,
                 attribute:'agility'
             },
             {
-                name:'subtract agility',
+                name:'-',
                 value:-1,
                 attribute:'agility'
             },
             {
-                name:'add intelligence',
+                name:'+',
                 value:1,
                 attribute:'intelligence'
             },
             {
-                name:'subtract intelligence',
+                name:'-',
                 value:-1,
                 attribute:'intelligence'
             },
             {
-                name:'add magic',
+                name:'+',
                 value:1,
                 attribute:'magic'
             },
             {
-                name:'subtract magic',
+                name:'-',
                 value:-1,
                 attribute:'magic'
             },
             {
-                name:'add charisma',
+                name:'+',
                 value:1,
                 attribute:'charisma'
             },
             {
-                name:'subtract charisma',
+                name:'-',
                 value:-1,
                 attribute:'charisma'
             },
             {
-                name:'add luck',
+                name:'+',
                 value:1,
                 attribute:'luck'
             },
             {
-                name:'subtract luck',
+                name:'-',
                 value:-1,
                 attribute:'luck'
             },
@@ -115,6 +115,7 @@ class Stats extends Component {
                     title='Stat Allocation'
                     callbackFn = {this.handleStatChange}
                     buttons = {buttons}
+                    displayAttributes = {true}
                 />
             </div>
         )

@@ -61,7 +61,7 @@ class Main extends Component {
             if (newOffset<0){
                 newOffset = 0;
             }
-        axios.get(`/api/getCharacters/?nameStartsWith=${nameStartsWith}&offset=${newOffset}&limit=9`).then( res => {
+        axios.get(`/api/getCharacters/?nameStartsWith=${nameStartsWith}&offset=${newOffset}&limit=6`).then( res => {
             let characters = res.data
             console.log(res)
             this.setState({
@@ -140,26 +140,29 @@ class Main extends Component {
                 onChange={e => this.handleChange(e)}
             />
             <button onClick={ () => this.getCharacters()}>GET CHARACTERS</button>
-            <button onClick={ () => this.getCharacters(-9)}>Previous 9</button>
-            <button onClick={ () => this.getCharacters(9)}>Next 9</button>
+            <button onClick={ () => this.getCharacters(-6)}>Previous 6</button>
+            <button onClick={ () => this.getCharacters(6)}>Next 6</button>
             <div className='lists'>
                 <CharacterList
                     list={characters}
                     title='CHARACTERS'
                     callbackFn = {this.addTeamMember}
                     buttons = {addButtons}
+                    displayAttributes = {false}
                 />
                 <CharacterList
                     list={myTeam}
                     title='MY TEAM'
                     callbackFn = {this.removeTeamMember}
                     buttons = {removeMyTeamButtons}
+                    displayAttributes = {false}
                 />
                 <CharacterList
                     list={enemyTeam}
                     title='ENEMY TEAM'
                     callbackFn={this.removeTeamMember}
                     buttons = {removeEnemyTeamButtons}
+                    displayAttributes = {false}
                 />
             </div>
         </div>

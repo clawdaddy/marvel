@@ -67,13 +67,13 @@ module.exports = {
     },
     changeStat:( req, res, next) => {
         const { change, attribute, characterID } = req.body;
-        let character = team.filter( character => +character.id === +characterID)[0];
+        let character = myTeam.filter( character => +character.id === +characterID)[0];
         if (character[attribute]>=0){
             character[attribute]+= change;
             statpoints -= change;
-            let index = team.findIndex( character => +character.id === +characterID);
-            team.splice(index, 1, character);
-            res.status(200).send({team, statpoints});
+            let index = myTeam.findIndex( character => +character.id === +characterID);
+            myTeam.splice(index, 1, character);
+            res.status(200).send({myTeam, statpoints});
         } else res.sendStatus(200);
         
     }

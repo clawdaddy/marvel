@@ -3,7 +3,7 @@ import './Main.css';
 import CharacterCard from './CharacterCard';
 
 function CharacterList(props){
-    const {list, title, callbackFn, buttons} = props;
+    const {list, title, callbackFn, buttons, displayAttributes} = props;
     const characterThumbs = list.map( character=> {
         return(
             <CharacterCard
@@ -11,6 +11,7 @@ function CharacterList(props){
                 callbackFn = {callbackFn}
                 buttons = {buttons}
                 key={character.id}
+                displayAttributes = {displayAttributes}
             />
         );
     });

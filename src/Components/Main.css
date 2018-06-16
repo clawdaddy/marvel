@@ -1,6 +1,7 @@
 .character-list-cards{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    border: 1px dashed blue;
     
 }
 
@@ -10,10 +11,12 @@
     margin:5px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     color: white;
+    min-height: 250px;
 }
+
 .character-card p {
     background-color: blue;
     
@@ -25,18 +28,22 @@
 }
 .card-content{
     display: flex;
+    flex-direction: column;
 }
 .card-stats{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-evenly;
+}
+.card-stats > p{
+    margin-left:5px;
 }
 .card-buttons{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-evenly;
 }
 .lists{
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 33% 33% 33%;
 }
