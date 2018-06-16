@@ -29,7 +29,17 @@ class Main extends Component {
                     }
                 }
             ],
-            offset:0
+            enemyTeam:[
+                {
+                    id:5,
+                    name:"Green Goblin (Ultimate)",
+                    thumbnail:{
+                        path:'http://i.annihil.us/u/prod/marvel/i/mg/2/c0/4c003439f081b',
+                        extension:"jpg"
+                        },
+                }
+            ],
+            offset:0,
         }
         this.addTeamMember = this.addTeamMember.bind(this);
         this.removeTeamMember = this.removeTeamMember.bind(this);
@@ -37,8 +47,10 @@ class Main extends Component {
 
     componentDidMount(){
         axios.get(`/api/team/getTeam`).then( response => {
+            const { myTeam, enemyTeam } = response.data;
             this.setState({
-                myTeam:response.data
+                myTeam,
+                enemyTeam
             });
         });
     }
@@ -59,9 +71,9 @@ class Main extends Component {
         })
         
     }
-    addTeamMember(character){
+    addTeamMember(character, team){
         const { characters } = this.state;
-        axios.post(`/api/team/addMember`, {character}).then( response => {
+        axios.post(`/api/team/addMember`, {character, team}).then( response => {
             //get back whole team
             let index = -1;
             let newCharacters = characters.map( (oldCharacter,i) => {
@@ -72,23 +84,30 @@ class Main extends Component {
             });
             newCharacters.splice(index,1)
             this.setState({
-                myTeam:response.data,
+                [team]:response.data,
                 characters:newCharacters
             });
         });
     };
-    removeTeamMember(character){
+    removeTeamMember(character, team){
         const {id} = character;
         const { characters } = this.state;
-        axios.delete(`/api/team/removeMember/${id}`).then( response => {
+        axios.delete(`/api/team/removeMember/${id}?team=${team}`).then( response => {
             let newCharacters = characters.map( oldCharacter  => {
                 return Object.assign({}, oldCharacter)
             });
             newCharacters.push(character)
-            this.setState({
-                myTeam:response.data,
-                characters:newCharacters
-            });
+            if (response.data[1] === 'myTeam'){
+                this.setState({
+                    myTeam:response.data[0],
+                    characters:newCharacters
+                });
+            } else {
+                this.setState({
+                    enemyTeam:response.data[0],
+                    characters:newCharacters
+                })
+            }
         });
     }
 
@@ -98,9 +117,21 @@ class Main extends Component {
         });
     }
     render(){
-        const { characters, myTeam } = this.state;
-        const addButtons = [{name:'ADD TO TEAM', value:''}];
-        const removeButtons = [{name:'REMOVE FROM TEAM', value:''}]
+        const { characters, myTeam, enemyTeam } = this.state;
+        const addButtons = [
+                {
+                    name:'ADD TO MY TEAM', 
+                    value:'', 
+                    attribute:'myTeam'
+                },
+                {
+                    name:'ADD TO ENEMY TEAM',
+                    value:'',
+                    attribute:'enemyTeam'
+                }
+            ];
+        const removeMyTeamButtons = [{name:'REMOVE FROM TEAM', value:'',attribute:'myTeam'}]
+        const removeEnemyTeamButtons = [{name:'REMOVE FROM TEAM', value:'', attribute:'enemyTeam'}]
         return(
         <div>
             <input type='text' placeholder='search names here'
@@ -122,7 +153,13 @@ class Main extends Component {
                     list={myTeam}
                     title='MY TEAM'
                     callbackFn = {this.removeTeamMember}
-                    buttons = {removeButtons}
+                    buttons = {removeMyTeamButtons}
+                />
+                <CharacterList
+                    list={enemyTeam}
+                    title='ENEMY TEAM'
+                    callbackFn={this.removeTeamMember}
+                    buttons = {removeEnemyTeamButtons}
                 />
             </div>
         </div>

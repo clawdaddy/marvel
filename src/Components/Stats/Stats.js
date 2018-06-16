@@ -7,7 +7,7 @@ class Stats extends Component {
     constructor(props){
         super(props);
         this.state = {
-            team:[
+            myTeam:[
                 {
                     id:0,
                     name:'',
@@ -24,8 +24,10 @@ class Stats extends Component {
     }
     componentDidMount(){
         axios.get(`/api/team/getTeam`).then( response => {
+            const { myTeam, enemyTeam } = response.data;
             this.setState({
-                team:response.data
+                myTeam,
+                enemyTeam
             });
         });
     };
@@ -42,7 +44,7 @@ class Stats extends Component {
         };
     };
     render(){
-        const { team, statpoints } = this.state;
+        const { myTeam, statpoints } = this.state;
         const buttons = [
             {
                 name:'add strength',
@@ -109,7 +111,7 @@ class Stats extends Component {
             <div>
                 <p>Stats to allocate: {statpoints}</p>
                 <CharacterList
-                    list={team}
+                    list={myTeam}
                     title='Stat Allocation'
                     callbackFn = {this.handleStatChange}
                     buttons = {buttons}
